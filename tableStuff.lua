@@ -1,4 +1,4 @@
------------------------ sorted_table_keys() -----------------------
+----------------------- sortedTableKeys() -----------------------
 --  Input: A table
 --  Output: An array (i.e. table with only numeric keys, starting at 1
 --          and counting upwards without any gaps in the numeric sequence)
@@ -7,7 +7,7 @@
 --  I created this routine when I wanted to make a version of pairs()
 --  guaranteed to traverse a table in a (mostly) deterministic fashion.
 
-function sorted_table_keys(t)
+function sortedTableKeys(t)
   local a = {}
   local b = 1
   for k,_ in pairs(t) do -- pairs() use OK; will sort

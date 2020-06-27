@@ -19,10 +19,38 @@ function sortedTableKeys(t)
 end
 
 ----------------------- tablePrint() -----------------------
--- Print out a table on standard output.  Does not traverse sub-tables
-function tablePrint(t)
+-- Print out a table on standard output.  Traverse sub-tables, avoid
+-- circular traversals
+function tablePrint(t, prefix, seen)
+  if not seen then 
+    seen = {}
+    seen[tostring(t)] = true
+  end
   for k,v in pairs(t) do
-    print(k, v)
+    if type(v) == "table" then
+      if not seen[tostring(v)] then
+        seen[tostring(v)] = true
+        local prefixR
+        if prefix then
+          prefixR = prefix .. ">" .. tostring(k) .. ":"
+        else
+          prefixR = tostring(k) .. ":"
+        end
+        tablePrint(t[k],prefixR,seen)
+      else
+        if prefix then
+          print(prefix, k, v, "Already seen, not traversing")
+        else
+          print(k, v, "Already seen, not traversing")
+        end
+      end
+    else
+      if prefix then
+        print(prefix, k, v)
+      else
+        print(k, v)
+      end
+    end
   end
 end
 

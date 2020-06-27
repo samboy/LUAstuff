@@ -20,7 +20,12 @@ end
 
 ----------------------- tablePrint() -----------------------
 -- Print out a table on standard output.  Traverse sub-tables, avoid
--- circular traversals
+-- circular traversals.  The code here has three arguments, but
+-- we only need one argument when looking at a table; the "prefix"
+-- and "seen" arguments are only used when tablePrint recursively looks
+-- at a sub-table.
+-- Usage
+-- t = {foo = "bar", baz = "b"} t2 = {l1 = "hi", t1 = t} t.z = t2 tablePrint(t)
 function tablePrint(t, prefix, seen)
   if not seen then 
     seen = {}
@@ -62,7 +67,7 @@ end
 -- for key, value in sPairs(someTable) do print(key, value) end
 function sPairs(t)
   local function _tableIter(t, _)
-    local k = t[t.i]
+    local k = t.s[t.i]
     local v
     if k then
       v = t.t[k]
@@ -74,7 +79,8 @@ function sPairs(t)
       return k, v
     end
   end
-  local tt = sortedTableKeys(t)
+  local tt = {}
+  tt.s = sortedTableKeys(t)
   tt.t = t
   tt.i = 1
   return _tableIter, tt, nil

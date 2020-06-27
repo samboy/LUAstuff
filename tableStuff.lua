@@ -26,23 +26,6 @@ function tablePrint(t)
   end
 end
 
------------------------ _tableIter() -----------------------
--- This is a private function that is used so we can have a sorted
--- form of pairs(table)
-function _tableIter(t, _)
-  local k = t[t.i]
-  local v
-  if k then
-    v = t.t[k]
-  else
-    return nil
-  end
-  t.i = t.i + 1
-  if v then
-    return k, v
-  end
-end
-
 ----------------------- sPairs(t) -----------------------
 -- Input: Table
 -- Ouput: Iterator used by "for" which will go through the keys in
@@ -50,8 +33,21 @@ end
 -- someTable = {foo = "bar", bar = "hello" , aaa = "zzz", aab = "xyz" }
 -- for key, value in sPairs(someTable) do print(key, value) end
 function sPairs(t)
+  local function _tableIter(t, _)
+    local k = t[t.i]
+    local v
+    if k then
+      v = t.t[k]
+    else
+      return nil
+    end
+    t.i = t.i + 1
+    if v then
+      return k, v
+    end
+  end
   local tt = sortedTableKeys(t)
   tt.t = t
   tt.i = 1
-  return _tableIter, tt, 0
+  return _tableIter, tt, nil
 end

@@ -26,7 +26,7 @@ function tablePrint(t, prefix, seen)
     seen = {}
     seen[tostring(t)] = true
   end
-  for k,v in pairs(t) do
+  for k,v in sPairs(t) do
     if type(v) == "table" then
       if not seen[tostring(v)] then
         seen[tostring(v)] = true

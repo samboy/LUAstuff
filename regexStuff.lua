@@ -9,7 +9,7 @@ function rCharSplit(i, c)
   local out = {}
   local n = 1
   local q
-  for q in string.gmatch(i, "[^" .. tostring(c) .. "]") do
+  for q in string.gmatch(i, "[^" .. tostring(c) .. "]+") do
     out[n] = q
     n = n + 1
   end

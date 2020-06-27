@@ -33,3 +33,9 @@ include `split`; this includes a simple `rCharSplit()` function to split
 a string on single characters (or to split on whitespace using `%s`).
 
 Tests are also included.
+
+# LUA versions supported
+
+This code is designed to run in Lua 5.1 and Lua 5.3.  It should be able to
+run in other versions of Lua (5.1 or higher) without issue.
+

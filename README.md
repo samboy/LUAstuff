@@ -32,3 +32,4 @@ down, is not Perl Regular Expression compatible), the engine does not
 include `split`; this includes a simple `rCharSplit()` function to split
 a string on single characters (or to split on whitespace using `%s`).
 
+Tests are also included.

@@ -1,7 +1,7 @@
 #!/usr/bin/env lua
 require("regexStuff")
 require("tableStuff")
-a="a,2,c,life,12345"
+a="a,2,c,life,,12345"
 tablePrint(rCharSplit(a,","))
 print("")
 

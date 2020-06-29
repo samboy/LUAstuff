@@ -192,43 +192,85 @@ function initBeltMill()
   return belt, mill
 end
 
--- Example debug usage
-belt, mill = initBeltMill()
--- We'll just have a 32-bit seed
--- This is the subset of RadioGatun[32] where the string is
--- precisely four bytes long
-seed = 0x34333231
-belt[1] = seed
-mill[17] = seed
-belt[14] = 1
-mill[18] = 1
--- Blank rounds
-for z = 1, 18 do
-  beltMill(belt,mill)
-end
--- Now, make some numbers from that
-function makeHex(i) 
+-- Output strings which are hex numbers in the same endian order
+-- as RadioGatun[32] test vectors, given a float
+function makeLittleEndianHex(i) 
   local out = ""
   for z = 1, 4 do
+    i = math.floor(i)
     out = out .. string.format("%02x",i % 256)
-    i = math.floor(i / 256)
+    i = i / 256
   end
   return out
 end
-out = ""
-for z = 1, 4 do
-  out = out .. makeHex(mill[2]) .. makeHex(mill[3])
-  beltMill(belt, mill)
-end
-print(out) -- RadioGatun[32] of the string "1234"
--- Verify that if we're using Lunacy (my Lua 5.1 fork)
-if math.randomstrseed then
-  math.randomstrseed("1234")
+
+-- Output a 256-bit digest string, given a radiogatun state.  Affects belt and
+-- mill, returns string
+function makeRG32sum(belt, mill)
   local out = ""
-  for z = 1, 16 do
-    out = out .. string.format("%04x",math.rand16())
+  for z = 1, 4 do
+    out = out .. makeLittleEndianHex(mill[2]) .. makeLittleEndianHex(mill[3])
+    beltMill(belt, mill)
   end
-  print(out)
-end 
--- CODE HERE: Real input mapper
+  return out
+end
+
+-- RadioGatun input map; given string return belt, mill, and "phase"
+function RG32inputMap(i) 
+  local belt, mill
+  belt, mill = initBeltMill()
+  local phase = 0;
+  for a = 1, string.len(i) do
+    local c = string.byte(i, a) 
+    local b
+    c = c % 256
+    c = c * (2 ^ (8 * (phase % 4)))
+    b = math.floor(phase / 4) % 3
+    belt[(13 * b) + 1] = xor(belt[(13 * b) + 1],c)
+    mill[17 + b] = xor(mill[17 + b],c)
+    phase = phase + 1
+    if phase % 12 == 0 then 
+      beltMill(belt, mill)
+    end
+  end 
+
+  -- Padding byte
+  local b = math.floor(phase / 4) % 3
+  local c = 2 ^ (8 * (phase % 4))
+  belt[(13 * b) + 1] = xor(belt[(13 * b) + 1],c)
+  mill[17 + b] = xor(mill[17 + b],c)
+
+  -- Blank rounds
+  for z = 1, 18 do
+    beltMill(belt,mill)
+  end
+  return belt, mill, 2
+end
+
+-- Verify rg32 sum, if we're using Lunacy (my Lua 5.1 fork)
+function lunacyVerifyVector(i)
+  local out = ""
+  if math.randomstrseed then
+    math.randomstrseed(i)
+    for z = 1, 16 do
+      out = out .. string.format("%04x",math.rand16())
+    end
+  end 
+  return out
+end
+
+function RG32sum(i) 
+  local belt, mill = RG32inputMap(i)
+  -- print(lunacyVerifyVector(i)) -- DEBUG
+  return makeRG32sum(belt,mill)
+end
+
+print(RG32sum(""))
+print(RG32sum("1"))
+print(RG32sum("1234"))
+print(RG32sum("12345678901"))
+print(RG32sum("123456789012"))
+print(RG32sum("1234567890123"))
+print(RG32sum("12345678901234"))
+
  

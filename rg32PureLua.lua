@@ -54,7 +54,7 @@ orNotT = {{ 15, 14, 13, 12, 11, 10,  9,  8,  7,  6,  5,  4,  3,  2,  1,  0 },
 
 -- Like Javascript, we only run bitwise operations across 32 bits
 -- Here, tbl is one of the tables above
-function bitwise(a, b, tbl) 
+function bitwise(a, b, sbox) 
   a = math.floor(a)
   a = a % 4294967296
   b = math.floor(b)
@@ -63,7 +63,7 @@ function bitwise(a, b, tbl)
   for z = 0, 7 do
     local ap = (a % 16) + 1
     local bp = (b % 16) + 1
-    out = out + (tbl[ap][bp] * (16 ^ z))
+    out = out + (sbox[ap][bp] * (16 ^ z))
     a = math.floor(a/16)
     b = math.floor(b/16)
   end

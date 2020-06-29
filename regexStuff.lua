@@ -1,4 +1,4 @@
------------------------ rSplit() -----------------------
+----------------------- rCharSplit() -----------------------
 -- Input: A string we will split, a character (class) we split on
 -- Output: An array (numeric indexed table) with the split string
 -- Should the character we split on not be in the string to split, 

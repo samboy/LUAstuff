@@ -209,7 +209,7 @@ function RG32inputMap(i)
   for z = 1, 18 do
     beltMill(belt,mill)
   end
-  return belt, mill, 2
+  return belt, mill
 end
 
 -- Verify rg32 sum, if we're using Lunacy (my Lua 5.1 fork)
@@ -230,12 +230,27 @@ function RG32sum(i)
   return makeRG32sum(belt,mill)
 end
 
-print(RG32sum(""))
-print(RG32sum("1"))
-print(RG32sum("1234"))
-print(RG32sum("12345678901"))
-print(RG32sum("123456789012"))
-print(RG32sum("1234567890123"))
-print(RG32sum("12345678901234"))
+-- Initialize a RG32 state we can get 32-bit PRNGs from
+function RG32init(i)
+  local belt, mill = RG32inputMap(i)
+  return {belt = belt, mill = mill, phase = 1}
+end
 
+-- This returns a 32-bit pseudo-random integer from a RG32 state
+function RG32rand32(state)
+  if state.phase == 1 then
+    state.phase = 2
+  elseif state.phase == 2 then
+    state.phase = 3
+  else
+    state.phase = 2
+    beltMill(state.belt,state.mill)
+  end
+  return state.mill[state.phase]
+end
+
+-- Example API usage
+-- rs = RG32init("1234")
+-- print(RG32rand32(rs))
+-- print(RG32sum("1234"))
  

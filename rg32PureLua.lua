@@ -221,5 +221,14 @@ for z = 1, 4 do
   beltMill(belt, mill)
 end
 print(out) -- RadioGatun[32] of the string "1234"
+-- Verify that if we're using Lunacy (my Lua 5.1 fork)
+if math.randomstrseed then
+  math.randomstrseed("1234")
+  local out = ""
+  for z = 1, 16 do
+    out = out .. string.format("%04x",math.rand16())
+  end
+  print(out)
+end 
 -- CODE HERE: Real input mapper
  

@@ -32,6 +32,14 @@ down, is not Perl Regular Expression compatible), the engine does not
 include `split`; this includes a simple `rCharSplit()` function to split
 a string on single characters (or to split on whitespace using `%s`).
 
+`rg32PureLua.lua`: This is an implemention of RadioGatún[32] using pure
+Lua 5.1.  This is not a fast implementation, but it allows one to have
+RadioGatún in places running Lua 5.1 which do not allow libraries to
+be loaded (Adobe Lightroom Classic, Roblox, etc.)
+
+`fileStuff.lua`: This, along with luafilesystem (`lfs`) allows one to 
+manipulate files.  
+
 Tests are also included.
 
 # LUA versions supported

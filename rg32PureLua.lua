@@ -8,7 +8,7 @@
 
 -- Lua 5.2 adds native bitwise operations, which can run a lot faster 
 -- than this does.  This is for Roblox users, Lightroom Classic users,
--- or anyone else stuck at Lua 5.1.
+-- or anyone else stuck at Lua 5.1 and can not use the Lua bitop library.
 
 -- This is an implementation of RadioGatun[32] for pure Lua 5.1
 -- Lua suffers from an "Internet Explorer 6" problem.  While Lua

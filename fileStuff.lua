@@ -18,14 +18,14 @@ function fileCopy(source, destination)
   if lfs.attributes(destination) then
     return false, "filecopy will not overwrite " .. destination
   end
-  i = io.open(source, "rb")
+  local i = io.open(source, "rb")
   if not i then return false, "could not open " .. source end
-  o = io.open(destination, "wb")
+  local o = io.open(destination, "wb")
   if not o then
     i:close()
     return false, "could not write to " .. destination 
   end
-  buffer = i:read(32768)
+  local buffer = i:read(32768)
   while buffer do
     o:write(buffer)
     buffer = i:read(32768)

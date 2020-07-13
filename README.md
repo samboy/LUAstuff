@@ -37,6 +37,10 @@ Lua 5.1.  This is not a fast implementation, but it allows one to have
 RadioGatún in places running Lua 5.1 which do not allow libraries to
 be loaded (Adobe Lightroom Classic, Roblox, etc.)
 
+`rg32bit32.lua`: This implementation of RadioGatún[32] uses the
+Lua 5.2+, Lunacy, and Roblox-Lua `bit32` library to get better
+performance than with the pure Lua 5.1 implementation.
+
 `fileStuff.lua`: This, along with luafilesystem (`lfs`) allows one to 
 manipulate files.  
 

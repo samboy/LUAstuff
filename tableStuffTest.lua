@@ -15,3 +15,12 @@ table1.t2 = table2 -- Make sure this doesn't make an infinite loop
 tablePrint(table1)
 print("")
 
+-- Test tableCopyD
+foo = {a = 1, b = 2, c = {d = 3, f = 4}}
+foo.c.z = foo
+bar = tableCopyD(foo)
+tablePrint(foo) -- foo.c.z should be circular loop warning
+tablePrint(bar) -- Should not have bar.c.z
+bar.c.d = 5
+print(foo.c.d) -- 3
+print(bar.c.d) -- 5

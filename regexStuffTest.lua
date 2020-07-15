@@ -19,8 +19,18 @@ for i,v in ipairs(rStrSplit(a)) do
   print(v,string.len(v))
 end
 -- In comparison, this will not have a 0 len string
-print("---------------------------------------------")
+print("rStrSplit test #4 ---------------------------")
 for i,v in ipairs(rCharSplit(a,",")) do
   print(v,string.len(v))
 end
-
+c='"foo, bar",2,"field 3, you know",This is field 4'
+-- This is where rStrSplit breaks down
+print("rStrSplit test #5 ---------------------------")
+for i,v in ipairs(rStrSplit(c)) do
+  print(v,string.len(v))
+end
+-- So we need something which can handle quoted CSV stuff
+print("qCsvSplit test ------------------------------")
+for i,v in ipairs(qCsvSplit(c)) do
+  print(v,string.len(v))
+end

@@ -24,7 +24,9 @@ is non-deterministic in Lua; I have routines with deterministic traversal.
 output the entire contents of a table, including all sub-tables.  It includes
 infinite loop protection; circular references will not be traversed.  This
 also has `sPairs()` which is a (mostly) deterministic version of Lua’s
-`pairs()` table traversal routine.
+`pairs()` table traversal routine.  There are also routines which are
+akin to Python’s `copy.deepcopy()` (`tableCopyR()`) and ways to sort
+tables differently.
 
 `regexStuff.lua`: While Lua comes with a fairly powerful, if quirky, regular
 expression engine (Read: The engine, in the interests of keeping code size
@@ -35,7 +37,7 @@ a string on single characters (or to split on whitespace using `%s`).
 `rg32PureLua.lua`: This is an implemention of RadioGatún[32] using pure
 Lua 5.1.  This is not a fast implementation, but it allows one to have
 RadioGatún in places running Lua 5.1 which do not allow libraries to
-be loaded (Adobe Lightroom Classic, Roblox, etc.)
+be loaded 
 
 `rg32bit32.lua`: This implementation of RadioGatún[32] uses the
 Lua 5.2+, Lunacy, and Roblox-Lua `bit32` library to get better

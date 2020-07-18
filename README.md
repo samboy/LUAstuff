@@ -33,11 +33,13 @@ expression engine (Read: The engine, in the interests of keeping code size
 down, is not Perl Regular Expression compatible), the engine does not
 include `split`; this includes a simple `rCharSplit()` function to split
 a string on single characters (or to split on whitespace using `%s`).
+There is also routines for splitting CSV files (including annoying
+quoted CSV) and making nice human-readable numbers.
 
 `rg32PureLua.lua`: This is an implemention of RadioGatún[32] using pure
 Lua 5.1.  This is not a fast implementation, but it allows one to have
 RadioGatún in places running Lua 5.1 which do not allow libraries to
-be loaded 
+be loaded.
 
 `rg32bit32.lua`: This implementation of RadioGatún[32] uses the
 Lua 5.2+, Lunacy, and Roblox-Lua `bit32` library to get better

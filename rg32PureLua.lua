@@ -7,8 +7,8 @@
 -- is how both ObHack and Lunacy run RadioGatun[32]
 
 -- Lua 5.2 adds native bitwise operations, which can run a lot faster 
--- than this does.  This is for Roblox users, Lightroom Classic users,
--- or anyone else stuck at Lua 5.1 and can not use the Lua bitop library.
+-- than this does.  This is for Lightroom Classic users or anyone else 
+-- stuck at Lua 5.1 and can not use the Lua bit32 library.
 
 -- This is an implementation of RadioGatun[32] for pure Lua 5.1
 -- Lua suffers from an "Internet Explorer 6" problem.  While Lua
@@ -53,7 +53,7 @@ orNotT = {{ 15, 14, 13, 12, 11, 10,  9,  8,  7,  6,  5,  4,  3,  2,  1,  0 },
           { 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15 }}
 
 -- Like Javascript, we only run bitwise operations across 32 bits
--- Here, tbl is one of the tables above
+-- Here, sbox is one of the tables above
 function bitwise(a, b, sbox) 
   a = math.floor(a)
   a = a % 4294967296

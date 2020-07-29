@@ -151,8 +151,8 @@ end
 -- Verify rg32 sum, if we're using Lunacy (my Lua 5.1 fork)
 function lunacyVerifyVector(i)
   local out = ""
-  if math.randomstrseed then
-    math.randomstrseed(i)
+  if math.rand16 then
+    math.randomseed(i)
     for z = 1, 16 do
       out = out .. string.format("%04x",math.rand16())
     end

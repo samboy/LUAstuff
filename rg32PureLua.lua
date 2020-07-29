@@ -10,6 +10,8 @@
 -- than this does.  This is for Lightroom Classic users or anyone else 
 -- stuck at Lua 5.1 and can not use the Lua bit32 library.
 
+-- LuaJIT has native bit operations which rg32bit32 is smart enough to use.
+
 -- This is an implementation of RadioGatun[32] for pure Lua 5.1
 -- Lua suffers from an "Internet Explorer 6" problem.  While Lua
 -- 5.3 has native bitwise operations, Lua 5.1 does *not*.  However,
@@ -215,8 +217,8 @@ end
 -- Verify rg32 sum, if we're using Lunacy (my Lua 5.1 fork)
 function lunacyVerifyVector(i)
   local out = ""
-  if math.randomstrseed then
-    math.randomstrseed(i)
+  if math.rand16 then
+    math.randomseed(i)
     for z = 1, 16 do
       out = out .. string.format("%04x",math.rand16())
     end

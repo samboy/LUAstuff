@@ -12,7 +12,7 @@ I have, as an informal benchmark, run my code which uses Lua to generate
 an entire static site tracking COVID-19 growth for every single county
 in the United States. [2] This creates multiple huge tables as we hold
 in memory all of the calculations done against COVID-19 cases and deaths
-all 4,000+ counties in the US, with a separate sub-table for each day
+for all 4,000+ counties in the US, with a separate sub-table for each day
 for each county.  Lua, processing this data, uses 550 megs when compiled
 as a 32-bit program and 700-800 megs when compiled as a 64-bit program.
 

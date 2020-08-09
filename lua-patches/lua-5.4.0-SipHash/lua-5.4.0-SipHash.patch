@@ -1,0 +1,6 @@
+--- lua-5.4.0/src/SipHash.h.orig	2020-08-08 19:22:44.720096348 -0700
++++ lua-5.4.0/src/SipHash.h	2020-08-08 19:22:40.433125570 -0700
+@@ -0,0 +1,3 @@
++#include <stdint.h>
++uint64_t sipKey1 = 0xded6cbc72f7eeb4fULL;
++uint64_t sipKey2 = 0x81875fe84b1705d7ULL;

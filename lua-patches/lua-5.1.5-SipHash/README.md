@@ -4,6 +4,20 @@ fix the hash collision security issues, this patch has the advantage of
 being fairly simple and using strong cryptography which did not exist
 for hash compression algorithms at the time.
 
+To apply:
+
+```
+tar xvzf lua-5.1.5.tar.gz
+patch -p0 < lua-5.1.5-SipHash.patch
+```
+
+`lua-5.1.5.tar.gz` is available at lua.org and has the SHA-256 sum:
+
+```
+2640fc56a795f29d28ef15e13c34a47e223960b0240e8cb0a82d9b0738695333
+```
+
+
 SipHash.h uses a fixed key in the patch, which should probably be changed.
 There are various ways to change the key, such as running the included
 make.SipHash.h.lua script in a *NIX system with `/dev/urandom`.

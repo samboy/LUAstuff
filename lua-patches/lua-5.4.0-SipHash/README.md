@@ -31,7 +31,7 @@ for all 4,000+ counties in the US, with a separate sub-table for each day
 for each county.  Lua, processing this data, uses 550 megs when compiled
 as a 32-bit program and 700-800 megs when compiled as a 64-bit program.
 
-Some results on a 2007 era Core Duo T8100:
+Some results on a 2007 era Core Duo T8100, running a 64-bit binary:
 
 ```
 SipHash compile			Stock Lua 5.4.0
@@ -47,6 +47,14 @@ real    0m23.375s		real    0m23.262s
 user    0m22.803s		user    0m22.693s
 sys     0m0.569s		sys     0m0.566s
 ```
+
+Note that there is about a 20% slowdown when we run the same benchmark
+as an i386 binary compiled with GCC 3.2.3 from 2002.  SipHash is
+incredibly fast on a modern 64-bit processor because it can run
+its core algorithm using only four 64-bit registers.  I would
+suspect that there would be less slowdown on a 32-bit ARM or other
+RISC architecture because they do not have the register starvation
+i386 has.
 
 To replicate this benchmark:
 

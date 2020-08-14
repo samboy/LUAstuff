@@ -58,15 +58,15 @@ end
 -- for _,v in ipairs(pStrSplit(a,"%s+")) do print(v) end
 function pStrSplit(s, splitOn)
   if not splitOn then splitOn = "," end
-  local place = 1
+  local place = true
   local out = {} 
+  local mark
   local last = 1
   while place do
-    place, next = string.find(s, splitOn, place, false) 
+    place, mark = string.find(s, splitOn, last, false) 
     if place then
       table.insert(out,string.sub(s, last, place - 1))
-      place = next + 1
-      last = next + 1
+      last = mark + 1
     end
   end 
   table.insert(out,string.sub(s, last, -1))

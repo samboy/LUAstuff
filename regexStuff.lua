@@ -53,17 +53,20 @@ end
 -- This splits a string on a given Lua regular expression
 -- Input: string, split regex
 -- Output: An array split on the regex (e.g. "%s+" or "%,")
+-- Example usage:
+-- a="Hello, there, I am glad to meet you.  How are you?  I am fine.  Thanks."
+-- for _,v in ipairs(pStrSplit(a,"%s+")) do print(v) end
 function pStrSplit(s, splitOn)
   if not splitOn then splitOn = "," end
   local place = 1
   local out = {} 
   local last = 1
   while place do
-    place = string.find(s, splitOn, place, false) 
+    place, next = string.find(s, splitOn, place, false) 
     if place then
       table.insert(out,string.sub(s, last, place - 1))
-      place = place + 1
-      last = place
+      place = next + 1
+      last = next + 1
     end
   end 
   table.insert(out,string.sub(s, last, -1))

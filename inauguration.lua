@@ -1,7 +1,5 @@
 #!/usr/bin/env lua
 
--- This will currently *not* work with Lunacy, since it uses os.time()
-
 now = os.time()
 count = 1611162000 - now
 if count < 0 then

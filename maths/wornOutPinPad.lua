@@ -10,6 +10,8 @@
 -- or just (1).  The problem is the same for whatever the actual PIN digits
 -- are in any number system of base 4 or higher.
 
+-- Credit: https://idiomdrottning.org/notice/A2nOhYqxMMclHtK6xk
+
 uniquecount = {}
 combo = {}
 for a=1,4 do

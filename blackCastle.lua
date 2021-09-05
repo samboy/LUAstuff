@@ -67,11 +67,12 @@ function blackCastle(filename)
   function getNumber(jsonF, char)
     local out = ""
     while char do
+    print(out)--DEBUG
       if not char then 
         globalError = "Premature end of file"
         return nil 
       end
-      if isWhitespace(char) or char == "," then 
+      if isWhitespace(char) or char == "," or char == "]" or char == "}" then 
         return tonumber(out)
       elseif char:find("[0-9%.Ee%+%-]") then
         out = out .. char
@@ -93,7 +94,7 @@ function blackCastle(filename)
         globalError = "Premature end of file"
         return nil 
       end
-      if isWhitespace(char) or char == "," then 
+      if isWhitespace(char) or char == "," or char == ":" then 
         return out
       elseif char:find("[A-Za-z0-9%_]") then
         out = out .. char
@@ -119,6 +120,7 @@ function blackCastle(filename)
     if mode == "[" then name = 1 end
     while char do
       char = jsonF:read(1)
+      if not char then return out end
       if mode == "{" and char == '"' and not name then 
         name = getString(jsonF)
         if not name then return nil end

@@ -67,7 +67,6 @@ function blackCastle(filename)
   function getNumber(jsonF, char)
     local out = ""
     while char do
-    print(out)--DEBUG
       if not char then 
         globalError = "Premature end of file"
         return nil 

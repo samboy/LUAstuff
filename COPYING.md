@@ -3,3 +3,6 @@ and related and neighboring rights to this software to the public domain
 worldwide. This software is distributed without any warranty.
 
 See <http://creativecommons.org/publicdomain/zero/1.0/>
+
+To the extent of the author's knowledge, none of this software uses
+patented techniques or processes.

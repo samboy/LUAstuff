@@ -12,6 +12,9 @@
 -- In "The book of Atari Software 1984", the reviewer could not find this
 -- secret passage until Atari sent them a map and hint sheet.
 
+-- To Douglas Crockford's credit, the 1985 Antic version of the game has
+-- an arrow in the black castle pointing to the secret passage.
+
 -- This only parses JSON input; this can not handle backslashes in strings;
 -- this parser assumes that strings are binary blobs w/o the " character;
 -- this does not generate JSON; this only reads JSON from a file; this uses

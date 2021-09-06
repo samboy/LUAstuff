@@ -60,6 +60,13 @@ function blackCastle(filename)
         return nil 
       end
       if char == '"' then return out end
+      -- To correctly add support for \ in JSON strings, this library
+      -- would need to have an entire Unicode subsystem: Convert Unicode
+      -- codepoints to UTF-8; convert UTF-8 sequences in to Unicode 
+      -- code points (or, at least, make sure we don’t have invalid UTF-8
+      -- in our strings); convert surrogate pairs in to single code points;
+      -- etc.  It would make this quick and dirty JSON library about four
+      -- times larger.
       if char == '\\' then 
         globalError = "Sorry no backslash support yet"
         return nil 

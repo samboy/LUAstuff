@@ -159,7 +159,7 @@ function blackCastle(filename)
         else
           name = name + 1
         end
-      elseif char:find("[0-9]") and name then
+      elseif char:find("[0-9%-]") and name then
         value, next = getNumber(jsonF, char)
         if not value then
           globalError = "Error parsing number"

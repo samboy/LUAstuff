@@ -53,5 +53,9 @@ the plan is to transfer the strings from the JSON blackCastle receives
 in to Lua as-is:  Backslashes will be retained in the string, and to
 handle stuff like `\u221e` without an entire Unicode library, the plan
 is to just pass `\u221e` as is to Lua; likewise, if we get `∞` (the
-infinity symbol, i.e. 221e, we will pass it to Lua as the UTF-8
+infinity symbol, i.e. 221e), we will pass it to Lua as the UTF-8
 characters `E2 88 9E`.
+
+Update the library to allow the caller determine that JSON `null`
+becomes.  This would allow us to handle null properly (since `nil` is
+*not* the same as JSON `null`).

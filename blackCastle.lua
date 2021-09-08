@@ -239,6 +239,7 @@ function blackCastle(filename, nullvalue)
       if not char then break end
       if char == "[" or char == "{" then 
         out = toJsonRecurse(jsonF, char, 1) 
+        jsonF:close()
         if not out then return {_ERROR = globalError, line = lineNumber} end
         return out
       elseif char == "#" then -- Comments, non-JSON extension
@@ -250,9 +251,11 @@ function blackCastle(filename, nullvalue)
       elseif char == "," then
         char = true
       else
+        jsonF:close()
         return {_ERROR = "JSON syntax error", line = lineNumber}
       end 
     end
+    jsonF:close()
     return {}
   end
 

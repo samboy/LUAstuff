@@ -28,10 +28,15 @@
 
 --   require("blackCastle")
 --   foo = blackCastle("file.json")
+-- blackCastle input: File name with JSON we wish to read
+--             optional input: If the JSON has a null entry, what value
+--                             we should give null.  Defaults to the 
+--                             string "--NULL--"
 
-function blackCastle(filename)
+function blackCastle(filename, nullvalue)
   local globalError = nil
   local lineNumber = 1
+  if not nullvalue then nullvalue = "--NULL--" end
 
   -- While comments are not part of standard JSON, we support # comments
   function processComment(jsonF) 
@@ -67,11 +72,15 @@ function blackCastle(filename)
       -- in our strings); convert surrogate pairs in to single code points;
       -- etc.  It would make this quick and dirty JSON library about four
       -- times larger.
-      if char == '\\' then 
-        globalError = "Sorry no backslash support yet"
-        return nil 
-      end
+      -- So, instead, we just pass the string the JSON gives us as-is as
+      -- a "binary blob" to Lua.  The UTF-8 infinity symbol will become
+      -- a literal UTF-8 infinity symbol (Hex: E2 88 9E); the sequence
+      -- '\u221e' in a JSON string (which represents the infinity symbol)
+      -- will remain the ASCII string "\u221e"
       out = out .. char
+      if char == '\\' then 
+	out = out .. jsonF:read(1)
+      end
     end
     return out
   end
@@ -155,7 +164,7 @@ function blackCastle(filename)
       elseif char == "t" or char == "f" or char == "n" then
         value, next = getWord(jsonF, char)
 	-- You do not want to make JSON "null" Lua nil
-	if value == "null" then value = "--NULL--" 
+	if value == "null" then value = nullvalue
 	elseif value == "false" then value = false
 	elseif value == "true" then value = true
 	else

@@ -27,7 +27,7 @@ print(foo["Zork"])
 
 ### Optional argument: jsonnull
 
-We can specify whar value a JSON `null` has.  Let’s take a
+We can specify what value a JSON `null` has.  Let’s take a
 file `foo.json` which looks like this:
 
 ```

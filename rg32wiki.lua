@@ -100,7 +100,7 @@ local function makeRG32sum(belt, mill)
   return out
 end
 
--- RadioGatun input map; given string return belt, mill, and "phase"
+-- RadioGatun input map; given string return belt, mill
 local function RG32inputMap(i)
   local belt, mill
   belt, mill = initBeltMill()

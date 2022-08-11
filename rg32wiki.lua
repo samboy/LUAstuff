@@ -51,6 +51,7 @@ local function beltMill(belt, mill)
      mill[14 + z] = bit32.bxor(belt[(z * 13) + 1],mill[14 + z])
   end
 
+  -- Iota
   mill[1] = bit32.bxor(mill[1],1)
 end
 
@@ -138,11 +139,14 @@ function rg32sum(i)
   return makeRG32sum(belt,mill)
 end
 
--- We allow Background color to be set as per the Wikipedia page on rg32
+-- Given an input to hash, return a formatted version of the hash
+-- with both the input and hash value
 function p.rg32(frame)
   local input = "1234"
   local args = nil
   local pargs = nil
+  -- The mw check allows this function to run outside of Mediawiki as
+  -- a standalone Lua script
   if mw then
     args = frame.args
     pargs = frame:getParent().args
@@ -156,9 +160,12 @@ function p.rg32(frame)
     input = tostring(pargs[1])
   end
   local rginput
+  -- Remove formatting from the string we give to the rg32 engine
   rginput = input:gsub("{{Background color|#%w+|(%w+)}}","%1")
   rginput = rginput:gsub("<[^>]+>","") -- Remove HTML tags
   local sum = rg32sum(rginput)
+  -- This is the output in Mediawiki markup format we give to
+  -- the caller of this function
   return(' RadioGatun[32]("' .. input .. '") =\n ' .. sum)
 end
 

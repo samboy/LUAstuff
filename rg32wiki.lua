@@ -141,9 +141,11 @@ end
 -- We allow Background color to be set as per the Wikipedia page on rg32
 function p.rg32(frame)
   local input = "1234"
+  local args = nil
+  local pargs = nil
   if mw then
-    local args = frame.args
-    local pargs = frame:getParent().args
+    args = frame.args
+    pargs = frame:getParent().args
   else
     args = {}
     args[1] = frame

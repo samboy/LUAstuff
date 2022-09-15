@@ -13,7 +13,7 @@ local function beltMill(belt, mill)
 
   -- Mill to belt feedforward
   for z = 0, 11 do
-    offset = z + ((z % 3) * 13) + 1
+    local offset = z + ((z % 3) * 13) + 1
     belt[offset] = bit32.bxor(belt[offset],mill[z + 2])
   end
 
@@ -133,38 +133,43 @@ local function RG32inputMap(i)
   return belt, mill
 end
 
-function rg32sum(i)
-  local belt, mill = RG32inputMap(i)
-  -- print(lunacyVerifyVector(i)) -- DEBUG
+-- Get the input string from a function input
+-- depending on how the parent function is called, this can be a Mediawiki 
+-- table with all args or it can be a simple string.
+local function grabString(i)
+  local input = i
+  if type(input) == "table" then
+    local args = nil
+    local pargs = nil
+    args = input.args
+    pargs = input:getParent().args
+    if args and args[1] then 
+      input = args[1]
+    elseif pargs and pargs[1] then
+      input = pargs[1]
+    else
+      input = "1234" -- Default value
+    end
+  end
+  return input
+end
+
+-- Given an input string, make a string with the hex RadioGatun[32] sum
+function p.rg32sum(i)
+  local belt, mill = RG32inputMap(grabString(i))
   return makeRG32sum(belt,mill)
 end
 
 -- Given an input to hash, return a formatted version of the hash
 -- with both the input and hash value
-function p.rg32(frame)
-  local input = "1234"
-  local args = nil
-  local pargs = nil
-  -- The mw check allows this function to run outside of Mediawiki as
-  -- a standalone Lua script
-  if mw then
-    args = frame.args
-    pargs = frame:getParent().args
-  else
-    args = {}
-    args[1] = frame
-  end
-  if args[1] then
-    input = tostring(args[1])
-  elseif pargs[1] then
-    input = tostring(pargs[1])
-  end
+function p.rg32(i)
+  local input = grabString(i)
   local rginput
   -- Remove formatting from the string we give to the rg32 engine
   rginput = input:gsub("{{Background color|#%w+|(%w+)}}","%1")
   rginput = rginput:gsub("<[^>]+>","") -- Remove HTML tags
   rginput = rginput:gsub("%[%[Category[^%]]+%]%]","") -- Remove categories
-  local sum = rg32sum(rginput)
+  local sum = p.rg32sum(rginput)
   -- This is the output in Mediawiki markup format we give to
   -- the caller of this function
   return(' RadioGatun[32]("' .. input .. '") =\n ' .. sum)

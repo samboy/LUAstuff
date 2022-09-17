@@ -77,7 +77,7 @@ end
 -- Output: day of week (0 = Sunday, 6 = Saturday)
 function dayOfWeek(year, month, day)
   -- See https://artofmemory.com/blog/how-to-calculate-the-day-of-the-week/
-  -- for algorithm
+  -- for algorithm, which looks to be designed by Tomohiko Sakamoto
   local monthX = {0, 3, 3, 6, 1, 4, 6, 2, 5, 0, 3, 5}
   local yearX = ((year % 100) + (math.floor((year % 100) / 4))) % 7
   local centuryX = {4, 2, 0, 6, 4, 2, 0} -- Each century starting at 1700

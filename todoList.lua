@@ -1,4 +1,4 @@
-#!/usr/bin/env lunacy
+#!/usr/bin/env lua
 
 -- This is a to do list.  This to do list can handle appointments on a given
 -- day, weekly recurring items, and monthly recurring items

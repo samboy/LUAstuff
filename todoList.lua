@@ -76,16 +76,12 @@ end
 -- Input: year, month, day 
 -- Output: day of week (0 = Sunday, 6 = Saturday)
 function dayOfWeek(year, month, day)
-  -- See https://artofmemory.com/blog/how-to-calculate-the-day-of-the-week/
-  -- for algorithm, which looks to be designed by Tomohiko Sakamoto
-  local monthX = {0, 3, 3, 6, 1, 4, 6, 2, 5, 0, 3, 5}
-  local yearX = ((year % 100) + (math.floor((year % 100) / 4))) % 7
-  local centuryX = {4, 2, 0, 6, 4, 2, 0} -- Each century starting at 1700
-  local thisCentury = math.floor(year / 100)
-  -- This code only runs for dates between 1700 and 2399
-  if thisCentury < 17 or thisCentury > 23 then return nil end
-  local out = yearX + monthX[month] + centuryX[thisCentury - 16] + day
-  if isLeapYear(year) and month < 3 then out = out - 1 end
+  -- Tomohiko Sakamoto algorithm
+  local monthX = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4}
+  if month < 3 then year = year - 1 end
+  local yearX = (year + math.floor(year / 4) - math.floor(year / 100) +
+                 math.floor(year / 400))
+  local out = yearX + monthX[month] + day
   out = out % 7
   return out
 end

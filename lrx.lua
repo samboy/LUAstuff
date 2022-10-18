@@ -6,7 +6,37 @@
 -- output.  The script takes a variable number of arguments, but needs
 -- to have at least one argument.
 
--- If the script is given one argument
+-- Unless otherwise specified, the output is the same as the input
+
+-- If the script is given one argument, then the given regular expression
+-- is removed from the output
+
+-- If the script is given two arguments, then the regular expression in the
+-- first argument is replaced with the string in the secon argument
+
+-- If the script is given an even number of arguments, then each odd 
+-- numbered argument (1, 3, 5, 7, etc.) is a regular expression which is
+-- replaced by a string in the subsequent argument
+
+-- For example, echo foo | lua5.1 lrx.lua 'f' 'g' 'o' 'a' 
+-- is the same as echo foo | perl -pe 's/f/g/g;s/o/a/g;'
+-- or for that matter echo foo | sed 's/f/g/g;s/o/a/g;'
+-- The output is gaa
+
+-- regular expression replacement strings can be blank:
+-- echo foo | lua5.1 lrx.lua 'f' '' 'o' 'a' # Output is aa
+
+-- If lrx is given an odd number of arguments, then the final argument
+-- is a regular expression which will be removed in the input
+
+-- echo foo | lua5.1 lrx.lua 'o' 'a' 'f' # Output is aa
+
+-- Regular expressionare are Lua regular expressions.  The main difference
+-- is that they are not as full features as Perl compatible regular 
+-- expressions, and that % instead of \ is used for meta characters
+-- See section 5.4.1 of the Lunacy or Lua 5.1 manual for details:
+-- https://www.lua.org/manual/5.1/manual.html#5.4.1
+-- https://maradns.samiam.org/lunacy/lunacy-manual.html#5.4.1
 
 -- This script has been donated to the public domain in 2022 by Sam Trenholme
 -- If, for some reason, a public domain declation is not acceptable, it

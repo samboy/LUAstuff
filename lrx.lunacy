@@ -33,6 +33,7 @@ for a=1,#arg,2 do
   else
     after[index] = ""
   end
+  index = index + 1
 end
 
 -- This is code which reads and processes lines from 

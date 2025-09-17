@@ -1,3 +1,30 @@
+-- sPairs: Like pairs() but keys are sorted
+-- Like pairs() but sorted
+function sPairs(inTable, sFunc)
+  if not sFunc then
+    sFunc = function(a, b)
+      local ta = type(a)
+      local tb = type(b)
+      if(ta == tb)
+        then return a < b 
+      end
+      return tostring(ta) <
+             tostring(tb)
+    end
+  end
+  local keyList = {}
+  local index = 1
+  for k,_ in pairs(inTable) do
+    table.insert(keyList,k)
+  end
+  table.sort(keyList, sFunc)
+  return function()
+    key = keyList[index]
+    index = index + 1
+    return key, inTable[key]
+  end
+end
+
 ----------------------- sortedTableKeys() -----------------------
 --  Input: A table
 --  Output: An array (i.e. table with only numeric keys, starting at 1

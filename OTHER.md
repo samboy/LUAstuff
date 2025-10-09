@@ -4,6 +4,9 @@ Some other languages based on Lua:
 * https://github.com/paly2/ALua One Lua variant
 * https://github.com/mingodad/ljs Lua variant with C/Javascript syntax
   (also available: "ljs" variants of Lua 5.1, LuaJIT)
+* https://github.com/mingodad/ljsjit LuaJIT variant with C/JS syntax
+* https://github.com/mingodad/ljs-5.1 Lua 5.1 variant with C/JS syntax
+* https://github.com/mingodad/ljs-5.4 Lua 5.4 variant with C/JS syntax
 * https://github.com/esle/Bracket-ed-Lua Lua with {} loop brackets
 * https://github.com/leafo/moonscript Lua with Python-like syntax
   (compiles to Lua)

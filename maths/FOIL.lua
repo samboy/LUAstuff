@@ -1,6 +1,8 @@
 #!/bin/sh
 _rem=--[=[
 # Make FOIL tests where we expand in to Quadratics
+# If you want nice Unicode squared instead of x^2 notation do this
+# ./FOIL.lua | perl -pe 's/\^2/²/g'
 
 LUNACY=""
 if command -v lunacy64 >/dev/null 2>&1 ; then

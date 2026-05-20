@@ -1,7 +1,6 @@
 #!/bin/sh
 _rem=--[=[
 # Make FOIL tests where we expand in to Quadratics
-# This is to teach people basic Algebra
 
 LUNACY=""
 if command -v lunacy64 >/dev/null 2>&1 ; then
@@ -90,9 +89,58 @@ function sPairs(inputTable,sFunc)
   end
 end
 
-seed = os.time()
-print("Seed: " .. seed)
-rg32.randomseed(seed)
+gSeed = tostring(os.time())
+gCSV = false
+gLo = 1
+gHi = 9
+gXnum = false
+gNoNeg = false
+if #arg >= 1 then
+  gSeed = arg[1]
+else
+  print("Seed: " .. gSeed)
+end
+if gSeed:match("^[Hh%-%?]") then
+  print("FOIL Version 2026-05-19")
+  print(
+   "Usage: FOIL {seed} {CSV} {low} {high} {allow non-1 x} {forbid negatives}") 
+  os.exit(0)
+end
+if #arg >= 2 then
+  if arg[2]:match("[Ff]") then 
+    gCSV = false
+  else 
+    gCSV = true
+  end
+end
+if #arg >= 3 then
+  gLo = tonumber(arg[3])
+end
+if #arg >= 4 then
+  gHi = tonumber(arg[4])
+end
+if #arg >= 5 then
+  if arg[5]:match("[Ff]") then 
+    gXnum = false
+  else 
+    gXnum = true
+  end
+end
+if #arg >= 6 then
+  if arg[6]:match("[Ff]") then 
+    gNoNeg = false
+  else 
+    gNoNeg = true
+  end
+end
+
+if not rg32 then 
+  print("Warning: rg32 (RadioGatún[32]) RNG not present")
+  rg32 = math -- Very crude polyfill, only Lunacy uses rg32 for math.random()
+  gSeed = tonumber(gSeed) -- Other RNGs don’t accept strings
+end 
+
+rg32.randomseed(gSeed)
 
 function doFOIL(min, max, allowXmultipliers, forbidNegative)
   function showSign(a)
@@ -114,8 +162,10 @@ function doFOIL(min, max, allowXmultipliers, forbidNegative)
     local out = ""
     if not hideSign then
       out = " " .. showSign(a) .. " " .. showMultTerm(a,power) .. " "
-    else
+    elseif a > 0 then
       out = " " .. showMultTerm(a,power) .. " "
+    else
+      out = " -" .. showMultTerm(a,power) .. " "
     end
     out = out:gsub("%s+"," ")
     return out
@@ -127,9 +177,9 @@ function doFOIL(min, max, allowXmultipliers, forbidNegative)
   local x2 = 1
   if allowXmultipliers then
     x1 = rg32.random(min,max)
-    -- if not forbidNegative and rg32.random(1,2)==1 then x1 = -x1 end
+    if not forbidNegative and rg32.random(1,2)==1 then x1 = -x1 end
     x2 = rg32.random(min,max)
-    -- if not forbidNegative and rg32.random(1,2)==1 then x2 = -x2 end
+    if not forbidNegative and rg32.random(1,2)==1 then x2 = -x2 end
   end
   local int1 = rg32.random(min,max)
   if not forbidNegative and rg32.random(1,2)==1 then int1 = -int1 end
@@ -155,6 +205,8 @@ function doFOIL(min, max, allowXmultipliers, forbidNegative)
   local FOIL = showTerm(F,2,true) .. showTerm(O,1) .. 
                showTerm(I,1) .. showTerm(L,0)
   FOIL = FOIL:gsub("%s+"," ")
+  FOIL = FOIL:gsub("^%s+","")
+  FOIL = FOIL:gsub("%s+$","")
   local solution = showMultTerm(answer2,2) .. " " .. showSign(answer1) .. " "
              .. showMultTerm(answer1,1) .. " " .. showSign(answer0) .. " " ..
              showMultTerm(answer0,0)
@@ -162,6 +214,20 @@ function doFOIL(min, max, allowXmultipliers, forbidNegative)
   return problem, FOIL, solution
 end
 
+function convertOut(b,c,d) 
+  local out = b
+  for a=1,20-b:len() do out = out .. " " end
+  out = out .. c
+  for a=1,30-c:len() do out = out .. " " end
+  out = out .. d
+  return out
+end
+
 for a=1,10 do  
-  print(doFOIL())
+  local b,c,d = doFOIL(gLo,gHi,gXnum,gNoNeg)
+  if gCSV then
+    print('"' .. b .. '","' .. c .. '","' .. d .. '"')
+  else
+    print(convertOut(b,c,d))
+  end
 end
